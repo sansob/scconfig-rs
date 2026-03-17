@@ -232,3 +232,16 @@ async fn fetches_toml_resources_and_detects_format() {
         other => panic!("unexpected document format: {:?}", other.format()),
     }
 }
+
+#[test]
+fn builder_accepts_development_tls_overrides() {
+    let client = SpringConfigClient::builder("https://localhost:8443")
+        .unwrap()
+        .danger_accept_invalid_certs(true)
+        .danger_accept_invalid_hostnames(true)
+        .danger_accept_invalid_tls(true)
+        .build()
+        .unwrap();
+
+    let _ = client;
+}

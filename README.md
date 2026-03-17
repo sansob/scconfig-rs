@@ -186,6 +186,37 @@ Supported bootstrap environment variables:
 - `SPRING_CONFIG_BEARER_TOKEN` optional
 - `SPRING_CONFIG_TIMEOUT_SECS` optional
 
+## Development TLS
+
+For local development or controlled smoke tests against self-signed or otherwise
+untrusted certificates, the builder can disable TLS validation explicitly:
+
+```rust,no_run
+use rust_cloud_config_client::{EnvironmentRequest, SpringConfigClient};
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let client = SpringConfigClient::builder("https://config.dev.dolphin-app.org")?
+        .danger_accept_invalid_tls(true)
+        .build()?;
+
+    let request = EnvironmentRequest::new("sample-api", ["dev"])?;
+    let environment = client.fetch_environment(&request).await?;
+
+    println!("{}", environment.name);
+    Ok(())
+}
+```
+
+Available builder methods:
+
+- `danger_accept_invalid_certs(true)` disables certificate validation
+- `danger_accept_invalid_hostnames(true)` disables hostname validation
+- `danger_accept_invalid_tls(true)` disables both
+
+These options are unsafe for production and should only be used when you fully
+control the target environment.
+
 ## Design Notes
 
 - The `Environment` endpoint is the preferred source when you want typed Rust structs.

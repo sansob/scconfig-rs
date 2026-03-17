@@ -25,6 +25,8 @@ pub struct SpringConfigClientBuilder {
     base_url: Url,
     default_label: Option<String>,
     auth: Option<Auth>,
+    accept_invalid_certs: bool,
+    accept_invalid_hostnames: bool,
     timeout: Option<Duration>,
     connect_timeout: Option<Duration>,
     user_agent: Option<String>,
@@ -51,6 +53,34 @@ impl SpringConfigClientBuilder {
     /// Configures Bearer token authentication.
     pub fn bearer_auth(mut self, token: impl Into<String>) -> Self {
         self.auth = Some(Auth::Bearer(token.into()));
+        self
+    }
+
+    /// Disables TLS certificate validation.
+    ///
+    /// This should only be enabled for development or controlled test environments
+    /// that use self-signed or otherwise untrusted certificates.
+    pub fn danger_accept_invalid_certs(mut self, enabled: bool) -> Self {
+        self.accept_invalid_certs = enabled;
+        self
+    }
+
+    /// Disables TLS hostname validation.
+    ///
+    /// This should only be enabled for development or controlled test environments
+    /// where the certificate hostname does not match the requested host.
+    pub fn danger_accept_invalid_hostnames(mut self, enabled: bool) -> Self {
+        self.accept_invalid_hostnames = enabled;
+        self
+    }
+
+    /// Disables both TLS certificate and hostname validation.
+    ///
+    /// This is a convenience method for local development or smoke tests against
+    /// environments with broken or private TLS setups. Do not enable this in production.
+    pub fn danger_accept_invalid_tls(mut self, enabled: bool) -> Self {
+        self.accept_invalid_certs = enabled;
+        self.accept_invalid_hostnames = enabled;
         self
     }
 
@@ -92,6 +122,14 @@ impl SpringConfigClientBuilder {
     /// Builds the client.
     pub fn build(self) -> Result<SpringConfigClient> {
         let mut builder = Client::builder().default_headers(self.headers);
+
+        if self.accept_invalid_certs {
+            builder = builder.danger_accept_invalid_certs(true);
+        }
+
+        if self.accept_invalid_hostnames {
+            builder = builder.danger_accept_invalid_hostnames(true);
+        }
 
         if let Some(timeout) = self.timeout {
             builder = builder.timeout(timeout);
@@ -146,6 +184,8 @@ impl SpringConfigClient {
             base_url,
             default_label: None,
             auth: None,
+            accept_invalid_certs: false,
+            accept_invalid_hostnames: false,
             timeout: None,
             connect_timeout: None,
             user_agent: None,

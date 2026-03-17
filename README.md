@@ -1,5 +1,11 @@
 # rust-cloud-config-client
 
+[![CI](https://github.com/sansob/rust-cloud-config-client/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/sansob/rust-cloud-config-client/actions/workflows/ci.yml)
+[![crates.io](https://img.shields.io/crates/v/rust-cloud-config-client.svg)](https://crates.io/crates/rust-cloud-config-client)
+[![docs.rs](https://docs.rs/rust-cloud-config-client/badge.svg)](https://docs.rs/rust-cloud-config-client)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sansob/rust-cloud-config-client/blob/master/LICENSE)
+[![Rust 1.85+](https://img.shields.io/badge/rust-1.85%2B-orange.svg)](https://www.rust-lang.org/)
+
 `rust-cloud-config-client` is a production-oriented Rust library for consuming [Spring Cloud Config Server](https://docs.spring.io/spring-cloud-config/reference/index.html) from non-Spring applications.
 
 It is built for Rust services that need:
@@ -45,15 +51,6 @@ From crates.io:
 ```toml
 [dependencies]
 rust-cloud-config-client = "0.1.0"
-serde = { version = "1", features = ["derive"] }
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
-```
-
-For local workspace development:
-
-```toml
-[dependencies]
-rust-cloud-config-client = { path = "../rust-cloud-config-client" }
 serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```

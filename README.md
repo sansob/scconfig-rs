@@ -40,7 +40,16 @@ Unknown extensions are still supported. The library returns them as UTF-8 text w
 
 ## Installation
 
-Local path dependency:
+From crates.io:
+
+```toml
+[dependencies]
+rust-cloud-config-client = "0.1.0"
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+```
+
+For local workspace development:
 
 ```toml
 [dependencies]

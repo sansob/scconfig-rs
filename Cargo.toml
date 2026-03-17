@@ -6,6 +6,9 @@ rust-version = "1.85"
 license = "MIT"
 description = "Async Rust client for Spring Cloud Config Server"
 readme = "README.md"
+repository = "https://github.com/sansob/rust-cloud-config-client"
+homepage = "https://github.com/sansob/rust-cloud-config-client"
+documentation = "https://docs.rs/rust-cloud-config-client"
 keywords = ["spring", "config", "cloud", "client", "rust"]
 categories = ["config", "web-programming::http-client"]
 

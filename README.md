@@ -50,7 +50,7 @@ From crates.io:
 
 ```toml
 [dependencies]
-rust-cloud-config-client = "0.1.2"
+rust-cloud-config-client = "0.1.3"
 serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```

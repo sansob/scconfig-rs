@@ -190,7 +190,12 @@ Supported bootstrap environment variables:
 - `SPRING_CONFIG_USERNAME` optional
 - `SPRING_CONFIG_PASSWORD` optional
 - `SPRING_CONFIG_BEARER_TOKEN` optional
+- `SPRING_CONFIG_INSECURE_TLS` optional, defaults to `false`
 - `SPRING_CONFIG_TIMEOUT_SECS` optional
+
+When bootstrapping against development Config Server endpoints that use private or
+self-signed certificates, set `SPRING_CONFIG_INSECURE_TLS=true` to disable both
+certificate and hostname validation for bootstrap requests only.
 
 ## Development TLS
 

@@ -17,6 +17,7 @@ pub struct BootstrapConfig {
     username: Option<String>,
     password: Option<String>,
     bearer_token: Option<String>,
+    accept_invalid_tls: bool,
     timeout: Option<Duration>,
 }
 
@@ -35,6 +36,8 @@ impl BootstrapConfig {
     pub const PASSWORD_ENV: &'static str = "SPRING_CONFIG_PASSWORD";
     /// Environment variable used for a Config Server bearer token.
     pub const BEARER_TOKEN_ENV: &'static str = "SPRING_CONFIG_BEARER_TOKEN";
+    /// Environment variable used to disable TLS certificate and hostname validation.
+    pub const INSECURE_TLS_ENV: &'static str = "SPRING_CONFIG_INSECURE_TLS";
     /// Environment variable used for request timeout in seconds.
     pub const TIMEOUT_SECONDS_ENV: &'static str = "SPRING_CONFIG_TIMEOUT_SECS";
 
@@ -59,6 +62,7 @@ impl BootstrapConfig {
             username: None,
             password: None,
             bearer_token: None,
+            accept_invalid_tls: false,
             timeout: None,
         }
         .validate()?)
@@ -76,6 +80,7 @@ impl BootstrapConfig {
     /// - `SPRING_CONFIG_USERNAME`
     /// - `SPRING_CONFIG_PASSWORD`
     /// - `SPRING_CONFIG_BEARER_TOKEN`
+    /// - `SPRING_CONFIG_INSECURE_TLS`
     /// - `SPRING_CONFIG_TIMEOUT_SECS`
     pub fn from_env() -> Result<Self> {
         let server_url = required_env(Self::SERVER_URL_ENV)?;
@@ -88,6 +93,10 @@ impl BootstrapConfig {
         let username = optional_env(Self::USERNAME_ENV);
         let password = optional_env(Self::PASSWORD_ENV);
         let bearer_token = optional_env(Self::BEARER_TOKEN_ENV);
+        let accept_invalid_tls = optional_env(Self::INSECURE_TLS_ENV)
+            .map(parse_env_bool)
+            .transpose()?
+            .unwrap_or(false);
         let timeout = optional_env(Self::TIMEOUT_SECONDS_ENV)
             .map(parse_timeout_seconds)
             .transpose()?;
@@ -100,6 +109,7 @@ impl BootstrapConfig {
             username,
             password,
             bearer_token,
+            accept_invalid_tls,
             timeout,
         }
         .validate()
@@ -125,6 +135,14 @@ impl BootstrapConfig {
         self.bearer_token = Some(token.into());
         self.username = None;
         self.password = None;
+        self
+    }
+
+    /// Disables both TLS certificate and hostname validation for Config Server requests.
+    ///
+    /// This should only be enabled for development or controlled test environments.
+    pub fn danger_accept_invalid_tls(mut self, enabled: bool) -> Self {
+        self.accept_invalid_tls = enabled;
         self
     }
 
@@ -157,6 +175,10 @@ impl BootstrapConfig {
     /// Builds a [`SpringConfigClient`] from the bootstrap settings.
     pub fn build_client(&self) -> Result<SpringConfigClient> {
         let mut builder = SpringConfigClient::builder(&self.server_url)?;
+
+        if self.accept_invalid_tls {
+            builder = builder.danger_accept_invalid_tls(true);
+        }
 
         if let Some(label) = &self.label {
             builder = builder.default_label(label);
@@ -273,4 +295,16 @@ fn parse_timeout_seconds(value: String) -> Result<Duration> {
         })?;
 
     Ok(Duration::from_secs(seconds))
+}
+
+fn parse_env_bool(value: String) -> Result<bool> {
+    match value.trim().to_ascii_lowercase().as_str() {
+        "1" | "true" | "yes" => Ok(true),
+        "0" | "false" | "no" => Ok(false),
+        _ => Err(Error::InvalidEnvironmentVariable {
+            name: BootstrapConfig::INSECURE_TLS_ENV,
+            reason: "expected true, false, yes, no, 1, or 0",
+            value,
+        }),
+    }
 }

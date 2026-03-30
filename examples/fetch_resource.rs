@@ -1,4 +1,4 @@
-use rust_cloud_config_client::{ConfigDocument, ResourceRequest, SpringConfigClient};
+use scconfig_rs::{ConfigDocument, ResourceRequest, SpringConfigClient};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

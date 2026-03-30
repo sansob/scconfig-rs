@@ -1,4 +1,4 @@
-use rust_cloud_config_client::{EnvironmentRequest, SpringConfigClient};
+use scconfig_rs::{EnvironmentRequest, SpringConfigClient};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]

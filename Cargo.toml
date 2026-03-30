@@ -1,14 +1,14 @@
 [package]
-name = "rust-cloud-config-client"
-version = "0.1.1"
+name = "scconfig-rs"
+version = "0.1.3"
 edition = "2024"
 rust-version = "1.85"
 license = "MIT"
 description = "Async Rust client for Spring Cloud Config Server"
 readme = "README.md"
-repository = "https://github.com/sansob/rust-cloud-config-client"
-homepage = "https://github.com/sansob/rust-cloud-config-client"
-documentation = "https://docs.rs/rust-cloud-config-client"
+repository = "https://github.com/sansob/scconfig-rs"
+homepage = "https://github.com/sansob/scconfig-rs"
+documentation = "https://docs.rs/scconfig-rs"
 keywords = ["spring", "config", "cloud", "client", "rust"]
 categories = ["config", "web-programming::http-client"]
 

@@ -1,12 +1,12 @@
-# rust-cloud-config-client
+# scconfig-rs
 
-[![CI](https://github.com/sansob/rust-cloud-config-client/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/sansob/rust-cloud-config-client/actions/workflows/ci.yml)
-[![crates.io](https://img.shields.io/crates/v/rust-cloud-config-client.svg)](https://crates.io/crates/rust-cloud-config-client)
-[![docs.rs](https://docs.rs/rust-cloud-config-client/badge.svg)](https://docs.rs/rust-cloud-config-client)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sansob/rust-cloud-config-client/blob/master/LICENSE)
+[![CI](https://github.com/sansob/scconfig-rs/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/sansob/scconfig-rs/actions/workflows/ci.yml)
+[![crates.io](https://img.shields.io/crates/v/scconfig-rs.svg)](https://crates.io/crates/scconfig-rs)
+[![docs.rs](https://docs.rs/scconfig-rs/badge.svg)](https://docs.rs/scconfig-rs)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sansob/scconfig-rs/blob/master/LICENSE)
 [![Rust 1.85+](https://img.shields.io/badge/rust-1.85%2B-orange.svg)](https://www.rust-lang.org/)
 
-`rust-cloud-config-client` is a production-oriented Rust library for consuming [Spring Cloud Config Server](https://docs.spring.io/spring-cloud-config/reference/index.html) from non-Spring applications.
+`scconfig-rs` is a production-oriented Rust library for consuming [Spring Cloud Config Server](https://docs.spring.io/spring-cloud-config/reference/index.html) from non-Spring applications.
 
 It is built for Rust services that need:
 
@@ -50,7 +50,7 @@ From crates.io:
 
 ```toml
 [dependencies]
-rust-cloud-config-client = "0.1.1"
+scconfig-rs = "0.1.3"
 serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
@@ -58,7 +58,7 @@ tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ## Quick Start
 
 ```rust,no_run
-use rust_cloud_config_client::{EnvironmentRequest, SpringConfigClient};
+use scconfig_rs::{EnvironmentRequest, SpringConfigClient};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -94,7 +94,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 ## Alternative Format Example
 
 ```rust,no_run
-use rust_cloud_config_client::{EnvironmentFormat, EnvironmentRequest, SpringConfigClient};
+use scconfig_rs::{EnvironmentFormat, EnvironmentRequest, SpringConfigClient};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -116,7 +116,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 ## Arbitrary File Example
 
 ```rust,no_run
-use rust_cloud_config_client::{ResourceRequest, SpringConfigClient};
+use scconfig_rs::{ResourceRequest, SpringConfigClient};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -135,7 +135,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 ## Binary File Example
 
 ```rust,no_run
-use rust_cloud_config_client::{ConfigDocument, ResourceRequest, SpringConfigClient};
+use scconfig_rs::{ConfigDocument, ResourceRequest, SpringConfigClient};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -158,7 +158,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 ## Bootstrap From Environment
 
 ```rust,no_run
-use rust_cloud_config_client::BootstrapConfig;
+use scconfig_rs::BootstrapConfig;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -203,7 +203,7 @@ For local development or controlled smoke tests against self-signed or otherwise
 untrusted certificates, the builder can disable TLS validation explicitly:
 
 ```rust,no_run
-use rust_cloud_config_client::{EnvironmentRequest, SpringConfigClient};
+use scconfig_rs::{EnvironmentRequest, SpringConfigClient};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -238,7 +238,7 @@ control the target environment.
 
 ## Error Handling
 
-All fallible operations return `rust_cloud_config_client::Error`.
+All fallible operations return `scconfig_rs::Error`.
 
 Errors include:
 

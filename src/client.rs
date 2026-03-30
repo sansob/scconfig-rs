@@ -141,7 +141,7 @@ impl SpringConfigClientBuilder {
 
         builder =
             builder.user_agent(self.user_agent.unwrap_or_else(|| {
-                format!("rust-cloud-config-client/{}", env!("CARGO_PKG_VERSION"))
+                format!("{}/{}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"))
             }));
 
         let http_client = builder.build().map_err(|source| Error::Transport {

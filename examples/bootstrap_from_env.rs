@@ -1,4 +1,4 @@
-use rust_cloud_config_client::BootstrapConfig;
+use scconfig_rs::BootstrapConfig;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]

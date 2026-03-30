@@ -1,4 +1,4 @@
-use rust_cloud_config_client::{BootstrapConfig, Error};
+use scconfig_rs::{BootstrapConfig, Error};
 use std::time::Duration;
 use temp_env::with_vars;
 
